@@ -89,7 +89,7 @@ def save_m3u8(italian_channels):
             tvgId = channel['tvgId']
             logo = channel['logo']
 
-            f.write(f'#EXTINF:-1 tvg-id="{tvgId}" group-title="{groupTitle}" tvg-logo="{logo}" tvg-name="{name}"\n')
+            f.write(f'#EXTINF:-1 tvg-id="{tvgId}" tvg-name="{name}" group-title="{groupTitle}" tvg-logo="{logo}" http-user-agent="{dominio}" http-referrer="{baseUrl}", {name}\n')
             f.write(f"{url}|Referer=\"{baseUrl}/\"|User-Agent=\"Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/33.0 Mobile/15E148 Safari/605.1.15\"|Origin=\"{baseUrl}\"\n")
 
 

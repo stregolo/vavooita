@@ -41,10 +41,10 @@ def filter_italian_channels(channels, base_url):
                 'discovery channel' in nome.lower() or nome.lower().startswith('history')):
                 
                 # Pulisci il nome del canale
-                nome = clean_channel_name(nome)
+                cleanName = clean_channel_name(nome)
 
                 # Cerca il tvgid e il logo corrispondente nel dizionario
-                channel_info = TVGIDS.get(nome)
+                channel_info = TVGIDS.get(cleanName)
                 
                 # Usa un tvgid di default e logo se non trovato
                 if not channel_info:
@@ -53,6 +53,7 @@ def filter_italian_channels(channels, base_url):
                 # Aggiungi i canali filtrati
                 canali_filtrati.append({
                     'name': nome, 
+                    'cleanName': cleanName, 
                     'url': f"{base_url}/play/{canale['id']}/index.m3u8", 
                     'country': paese + " " + dominio,
                     'baseUrl': base_url, 
@@ -78,10 +79,11 @@ def save_m3u8(italian_channels):
         os.remove(output_file)
     
     with open(output_file, "w", encoding="utf-8") as f:
-        f.write("#EXTM3U\n")
+        f.write("#EXTM3U\n\n")
 
         for channel in italian_channels:
             name = channel['name']
+            cleanName = channel['cleanName']
             url = channel['url']
             groupTitle = channel['country']
             baseUrl = channel['baseUrl']
@@ -89,9 +91,8 @@ def save_m3u8(italian_channels):
             tvgId = channel['tvgId']
             logo = channel['logo']
 
-            f.write(f'#EXTINF:-1 tvg-id="{tvgId}" tvg-name="{name}" group-title="{groupTitle}" tvg-logo="{logo}" http-user-agent="{dominio}" http-referrer="{baseUrl}", {name}\n')
+            f.write(f'#EXTINF:-1 tvg-id="{tvgId}" tvg-name="{cleanName}" group-title="{groupTitle}" tvg-logo="{logo}" http-user-agent="{dominio}" http-referrer="{baseUrl}", {name}\n')
             f.write(f"{url}|Referer=\"{baseUrl}/\"|User-Agent=\"Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/33.0 Mobile/15E148 Safari/605.1.15\"|Origin=\"{baseUrl}\"\n")
-
 
 
 # Siti da cui scaricare i dati

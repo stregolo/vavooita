@@ -79,7 +79,7 @@ def save_m3u8(italian_channels):
         os.remove(output_file)
     
     with open(output_file, "w", encoding="utf-8") as f:
-        f.write("#EXTM3U\n\n")
+        f.write("#EXTM3U\n")
 
         for channel in italian_channels:
             name = channel['name']
